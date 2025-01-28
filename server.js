@@ -16,7 +16,8 @@ const mongoose = require('mongoose');
 // define port variable
 const port = process.env.PORT; // for demonstration
 
-
+// import Fruit model
+const Fruit = require('./models/fruit.js');
 
 // ------------------------------------------------------- Middleware
 
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}`);
 })
+
 
 
 // ------------------------------------------------------- Routes
