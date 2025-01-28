@@ -28,15 +28,63 @@ mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}`);
 })
 
+app.use(express.urlencoded({ extended: false}));
+
+
+
 
 
 // ------------------------------------------------------- Routes
 
+// INDUCES
+
+// Index
 // GET / test route
 app.get("/", async (req, res) => {
-    // res.send(`hello, friend!`);
     res.render('index.ejs');
 });
+
+// New
+app.get("/fruits/new", async (req, res) => {
+    res.render('fruits/new.ejs');
+});
+
+// Delete
+// app.get("/", async (req, res) => {
+
+// });
+
+// Update
+// app.get("/", async (req, res) => {
+
+// });
+
+// Create
+app.post("/fruits", async (req, res) => {
+    console.log(req.body);
+    res.redirect("/fruits/new");
+});
+
+// Edit
+// app.get("/", async (req, res) => {
+
+// });
+
+// Show
+// app.get("/", async (req, res) => {
+
+// });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
