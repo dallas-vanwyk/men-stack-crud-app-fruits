@@ -28,7 +28,7 @@ mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}`);
 })
 
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 
 
@@ -61,7 +61,12 @@ app.get("/fruits/new", async (req, res) => {
 
 // Create
 app.post("/fruits", async (req, res) => {
-    console.log(req.body);
+    if (req.body.isReadyToEat === "on") {
+        req.body.isReadyToEat = true;
+    } else {
+        req.body.isReadyToEat = false;
+    }
+    await Fruit.create(req.body);
     res.redirect("/fruits/new");
 });
 
@@ -74,17 +79,6 @@ app.post("/fruits", async (req, res) => {
 // app.get("/", async (req, res) => {
 
 // });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
