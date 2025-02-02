@@ -13,6 +13,13 @@ dotenv.config();
 // add Mongoose
 const mongoose = require('mongoose');
 
+// add Middleware
+const methodOverride = require("method-override");
+const morgan = require("morgan");
+
+
+
+
 // define port variable
 const port = process.env.PORT; // for demonstration
 
@@ -29,20 +36,30 @@ mongoose.connection.on('connected', () => {
 })
 
 app.use(express.urlencoded({ extended: false }));
-
+app.use(methodOverride("_method"));
+app.use(morgan('dev'));
 
 
 
 
 // ------------------------------------------------------- Routes
 
-// INDUCES
 
-// Index
 // GET / test route
 app.get("/", async (req, res) => {
     res.render('index.ejs');
 });
+
+// I N D U C E S
+
+// Index
+app.get("/fruits", async (req, res) => {
+    const allFruits = await Fruit.find();
+    // console.log(allFruits);
+    // res.send('welcome to index pg');
+    res.render('fruits/index.ejs', { fruits: allFruits });
+});
+
 
 // New
 app.get("/fruits/new", async (req, res) => {
@@ -50,14 +67,16 @@ app.get("/fruits/new", async (req, res) => {
 });
 
 // Delete
-// app.get("/", async (req, res) => {
-
-// });
+app.delete("/fruits/:fruitId", async (req, res) => {
+    // res.send("this the delete route");
+    await Fruit.findByIdAndDelete(req.params.fruitId);
+    res.redirect('/fruits');
+});
 
 // Update
-// app.get("/", async (req, res) => {
+app.put("/fruits/:fruitId", async (req, res) => {
 
-// });
+});
 
 // Create
 app.post("/fruits", async (req, res) => {
@@ -67,18 +86,26 @@ app.post("/fruits", async (req, res) => {
         req.body.isReadyToEat = false;
     }
     await Fruit.create(req.body);
-    res.redirect("/fruits/new");
+    res.redirect("/fruits/");
 });
 
 // Edit
-// app.get("/", async (req, res) => {
-
-// });
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    // console.log(foundFruit);
+    // res.send(`edit ${foundFruit.name}`);
+    res.render("fruits/edit.ejs", {
+        fruit: foundFruit,
+    });
+});
 
 // Show
-// app.get("/", async (req, res) => {
-
-// });
+app.get("/fruits/:fruitId", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    // res.send(`This route renders show page for fruit id: ${req.params.fruitId}`);
+    // console.log(foundFruit);
+    res.render('fruits/show.ejs', { fruit: foundFruit });
+});
 
 
 
