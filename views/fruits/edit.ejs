@@ -23,7 +23,9 @@
 
         <div class="checkbox-div">
             <label for="ready-to-eat">Ready to Eat?</label>
-            <input type="checkbox" name="isReadyToEat" id="ready-to-eat" />
+            <input type="checkbox" name="isReadyToEat" id="ready-to-eat" 
+            <% if (fruit.isReadyToEat) { %>checked<% } %>
+            />
         </div>
 
         <button type="submit">Update Fruit</button>
