@@ -16,9 +16,7 @@ const mongoose = require('mongoose');
 // add Middleware
 const methodOverride = require("method-override");
 const morgan = require("morgan");
-
-
-
+const path = require('path');
 
 // define port variable
 const port = process.env.PORT; // for demonstration
@@ -38,7 +36,7 @@ mongoose.connection.on('connected', () => {
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan('dev'));
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
@@ -75,7 +73,17 @@ app.delete("/fruits/:fruitId", async (req, res) => {
 
 // Update
 app.put("/fruits/:fruitId", async (req, res) => {
+    
+    // handle checkbox
+    if (req.body.isReadyToEat === "on") {
+        req.body.isReadyToEat = true;
+    } else {
+        req.body.isReadyToEat = false;
+    }
+    
+    await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
 
+    res.redirect(`/fruits/${req.params.fruitId}`);
 });
 
 // Create
