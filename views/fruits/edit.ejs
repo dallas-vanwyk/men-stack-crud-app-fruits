@@ -1,3 +1,5 @@
+<!-- views/fruits/edit.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,14 +14,12 @@
 
 <body>
 
-    <h1>Edit <%= fruit.name %>
-    </h1>
+    <h1>Edit <%= fruit.name %></h1>
 
     <form action="/fruits/<%=fruit._id%>?_method=PUT" method="POST">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" value="<%= fruit.name %>" />
 
-        <!-- new.ejs / edit.ejs -->
 
         <div class="checkbox-div">
             <label for="ready-to-eat">Ready to Eat?</label>

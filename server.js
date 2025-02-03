@@ -43,9 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ------------------------------------------------------- Routes
 
 
-// GET / test route
+// Home
 app.get("/", async (req, res) => {
-    res.render('index.ejs');
+    res.render('home.ejs');
 });
 
 // I N D U C E S
@@ -112,7 +112,9 @@ app.get("/fruits/:fruitId", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
     // res.send(`This route renders show page for fruit id: ${req.params.fruitId}`);
     // console.log(foundFruit);
-    res.render('fruits/show.ejs', { fruit: foundFruit });
+    res.render('fruits/show.ejs', {
+        fruit: foundFruit
+    });
 });
 
 
